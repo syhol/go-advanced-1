@@ -150,14 +150,23 @@ func (r *rot13Reader) Read(bs []byte) (int, error) {
 	return count, nil
 }
 
-func rot13DecoratedReader() {
-	s := strings.NewReader("Lbh penpxrq gur pbqr!")
+func getCode() io.Reader {
+	s := strings.NewReader("Lbh penpxrq gur pbqr!\n")
+	return s
+}
+
+func decorateDecoder(s io.Reader) io.Reader {
 	r := rot13Reader{s}
+	return &r
+}
 
-	io.Copy(os.Stdout, &r)
+func rot13DecoratedReader() {
+	io.Copy(os.Stdout, getCode())
+	io.Copy(os.Stdout, decorateDecoder(getCode()))
 
+	r := decorateDecoder(getCode())
 	// Custom 4 bytes at a time
-	bs := make([]byte, 4)
+	bs := make([]byte, 4, 4)
 	var count int
 	var err error
 	for err != io.EOF {
