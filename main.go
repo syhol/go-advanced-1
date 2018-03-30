@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -12,6 +13,8 @@ func main() {
 	usingSelect()
 	annonStruct()
 	rot13DecoratedReader()
+	doSomeShouting()
+	mustDoSomeThings()
 }
 
 func usingCases() {
@@ -176,4 +179,41 @@ func rot13DecoratedReader() {
 		}
 		os.Stdout.Write(bs)
 	}
+}
+
+type myString struct {
+	str string
+}
+
+type shouting struct {
+	myString
+}
+
+func newMyString(s string) myString {
+	return myString{str: s}
+}
+
+func newShouting(s string) shouting {
+	shouting := shouting{}
+	shouting.str = strings.ToUpper(s)
+	return shouting
+}
+
+func (ms myString) Output() {
+	fmt.Println(ms.str)
+}
+
+func (ms shouting) Output() {
+	fmt.Println("Shouting:", ms.str)
+}
+
+func doSomeShouting() {
+	newMyString("Yellow Word").Output()
+	newShouting("Yellow Word").Output()
+}
+
+func mustDoSomeThings() {
+	exp := regexp.MustCompile("[1-9]+")
+	fmt.Println(exp.MatchString("Foo 1 Bar"))
+	fmt.Println(exp.MatchString("Foo Bar"))
 }
