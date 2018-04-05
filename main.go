@@ -12,6 +12,7 @@ func main() {
 	usingCases()
 	usingSelect()
 	annonStruct()
+	typeAssertions()
 	rot13DecoratedReader()
 	doSomeShouting()
 	mustDoSomeThings()
